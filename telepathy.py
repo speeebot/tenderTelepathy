@@ -26,6 +26,19 @@ image_cache = db.image_cache #load message cache collection from database
 
 bot = commands.Bot(command_prefix='>', description="bad to the bone", intents=intents)
 
+async def get_oauth_url():
+    try:
+        data = await bot.application_info()
+    except AttributeError:
+        return "Couldn't retrieve invite link."
+    return discord.utils.oauth_url(data.id)
+
+@bot.event
+async def on_ready():
+  url = await get_oauth_url()
+  bot.oauth_url = url
+  print("Use this link to invite the bot to your server: \n" + url)
+
 #keep a stored running list of all message ids which contain images across all channels
 #update db when bot comes online
 
