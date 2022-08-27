@@ -6,18 +6,18 @@ from pymongo import MongoClient
 from discord.ext import commands
 from dotenv import load_dotenv
 
-#https://discord.com/api/oauth2/authorize?client_id=1004485386564804648&permissions=2150697984&scope=bot
-
 #intents = discord.Intents(messages=True, guilds=True, message_content=True)
 intents = discord.Intents.all()
 
 load_dotenv()
-BOT_TOKEN = os.getenv('DISCORD_TOKEN')
+bot_token = os.getenv('DISCORD_TOKEN')
 
 conn_username = os.getenv('CONN_USERNAME')
 conn_password = os.getenv('CONN_PASSWORD')
-conn_string = (f"mongodb+srv://{conn_username}:" + urllib.parse.quote(conn_password) + "@tendertelepathy.ujpzmxn.mongodb.net/"
-              f"?retryWrites=true&w=majority")
+mongo_cluster = os.getenv('MONGO_CLUSTER')
+conn_string = (f"mongodb+srv://{conn_username}:" + urllib.parse.quote(conn_password) 
+                + f"{mongo_cluster}" 
+                + "?retryWrites=true&w=majority")
 
 client = MongoClient(conn_string)
 db = client.tender_database 
@@ -150,4 +150,4 @@ async def on_message(message):
     await channel.send("cached {}'s message at {}.".format(message.author.nick, message.created_at))
     #await bot.process_commands(message)
 
-bot.run(BOT_TOKEN)
+bot.run(bot_token)
