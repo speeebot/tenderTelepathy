@@ -16,8 +16,7 @@ conn_username = os.getenv('CONN_USERNAME')
 conn_password = os.getenv('CONN_PASSWORD')
 mongo_cluster = os.getenv('MONGO_CLUSTER')
 conn_string = (f"mongodb+srv://{conn_username}:" + urllib.parse.quote(conn_password) 
-                + f"{mongo_cluster}" 
-                + "?retryWrites=true&w=majority")
+                + f"{mongo_cluster}")
 
 client = MongoClient(conn_string)
 db = client.tender_database 
